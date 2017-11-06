@@ -1,0 +1,33 @@
+#!/usr/bin/env ruby
+# -*- ruby -*-
+#
+# $Date$
+# $Rev$
+#
+require 'cgi'
+require 'digest/md5'
+require 'sdbm'
+
+cgi = CGI.new("html3")
+
+host = port = nil
+host = cgi.params['host'][0].read if cgi.params['host'][0]
+port = cgi.params['port'][0].read if cgi.params['port'][0]
+id = cgi.params['id'][0].read
+imagedata = cgi.params['imagedata'][0].read
+#hash = Digest::MD5.new(imagedata).to_s
+hash = Digest::MD5.hexdigest(imagedata)
+
+dbm = SDBM.open('../myGyazo/db/id',0644)
+dbm[hash] = id
+dbm.close
+
+File.open("../myGyazo/data/#{hash}.png","w").print(imagedata)
+
+# cgi.out { "http://alb.anagix.com:8180/myGyazo/data/#{hash}.png" }
+# cgi.out { "<%= node[:alb_server] %>/myGyazo/data/#{hash}.png" }
+if host
+  cgi.out { "http://#{host}:#{port||'8080'}/myGyazo/data/#{hash}.png" }
+else
+  cgi.out { "<%= node[:alb_server] %>/myGyazo/data/#{hash}.png" }
+end

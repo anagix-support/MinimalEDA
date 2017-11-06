@@ -1,0 +1,26 @@
+export CDSHOME=/cds/ic5141USR4
+export PATH=/usr/local/anagix_tools/bin:$PATH:$CDSHOME/tools/dfII/bin:$CDSHOME/tools/bin:/opt/chef/embedded/bin
+export LD_LIBRARY_PATH=/usr/local/anagix_tools/lib:/usr/local/anagix_tools/qt-4/lib
+<%= if File.exist?('/opt/chef/embedded/bin/ruby') && !File.exist?('/usr/bin/startkde')
+      'export GEM_HOME=/usr/local/anagix_tools/lib/ruby/gems/2.1.0'
+    end
+%>    
+export MAIL_NOT_WORKING=yes # please uncomment if MAIL service works on this machine
+<%  proxy = `printenv http_proxy`.chomp %> 
+<%  if proxy != '' %>
+export http_proxy='<%= proxy %>'
+export no_proxy=localhost,127.0.0.1
+<%  end %>
+
+alias start_alb='cd #{File.join(node['anagix_home'], 'anagix_tools/alb')}; ./alb -e production'
+alias alb_start='/etc/init.d/alb_svc start'
+alias alb_stop='/etc/init.d/alb_svc stop'
+alias alb_status='ps cax | grep alb' 
+alias alb_log='more /usr/local/anagix_tools/alb/log/production.log'
+alias alb_tail='tail -f /usr/local/anagix_tools/alb/log/production.log'
+
+alias alb2_start='/etc/init.d/alb2_svc start'
+alias alb2_stop='/etc/init.d/alb2_svc stop'
+alias alb2_status='ps cax | grep rails' 
+alias alb2_log='more /usr/local/anagix_tools/alb2/log/production.log'
+alias alb2_tail='tail -f /usr/local/anagix_tools/alb2/log/production.log'

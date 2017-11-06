@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+# -*- ruby -*-
+#
+# $Date$
+# $Rev$
+#
+require 'cgi'
+require 'digest/md5'
+require 'sdbm'
+
+cgi = CGI.new("html3")
+
+id = cgi.params['id'][0].read
+imagedata = cgi.params['imagedata'][0].read
+#hash = Digest::MD5.new(imagedata).to_s
+hash = Digest::MD5.hexdigest(imagedata)
+
+dbm = SDBM.open('../htdocs/myGyazo/db/id',0644)
+dbm[hash] = id
+dbm.close
+
+File.open("../htdocs/myGyazo/data/#{hash}.png","w").print(imagedata)
+
+# cgi.out { "http://alb.anagix.com:8180/myGyazo/data/#{hash}.png" }
+cgi.out { "<%= node[:alb_server] %>/myGyazo/data/#{hash}.png" }
