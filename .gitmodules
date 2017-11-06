@@ -1,0 +1,6 @@
+[submodule "alb2_install"]
+	path = alb2_install
+	url = https://github.com/anagix-support/alb2_install.git
+[submodule "my_apache2_for_alb2"]
+	path = my_apache2_for_alb2
+	url = https://github.com/anagix-support/my_apache2_for_alb2.git
