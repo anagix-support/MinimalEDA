@@ -17,7 +17,13 @@ bash 'extract magic' do
   not_if { ::File.exist? '/usr/local/src/magic-8.1.185' }
 end
 
-packages = ['csh']
+case node[:platform]
+when 'ubuntu'
+  packages = ['csh', 'tk-dev', 'tcl-dev', 'm4']
+when 'centos'
+  packages = ['csh', 'tk-devel', 'tcl-devel', 'm4', 'gcc']
+end
+
 packages.each{|p|
   package p do
     action :install
