@@ -9,7 +9,7 @@ remote_file '/usr/local/src/dinotrace-9.4e.tgz' do
   mode '0755'
 end
 
-bash 'extract magic' do
+bash 'extract dinotrace' do
   cwd '/usr/local/src'
   code <<-EOH
     tar xzf /usr/local/src/dinotrace-9.4e.tgz
@@ -17,7 +17,13 @@ bash 'extract magic' do
   not_if { ::File.exist? '/usr/local/src/dinotrace-9.4e' }
 end
 
-packages = ['libmotif-dev']
+case node[:platform]
+when 'ubuntu'
+  packages = ['build-essential','libmotif-dev']
+when 'centos'
+  packages = ['openmotif-devel','gcc']
+end
+
 packages.each{|p|
   package p do
     action :install

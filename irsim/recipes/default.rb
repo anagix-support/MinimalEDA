@@ -17,7 +17,13 @@ bash 'extract irsim' do
   not_if { ::File.exist? '/usr/local/src/irsim-9.7.98' }
 end
 
-packages = []
+case node[:platform]
+when 'ubuntu'
+  packages = ['build-essential', 'tk-dev', 'tcl-dev', 'm4']
+when 'centos'
+  packages = ['tcl-devel', 'tk-devel', 'm4', 'gcc']
+end
+
 packages.each{|p|
   package p do
     action :install

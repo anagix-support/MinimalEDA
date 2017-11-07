@@ -17,7 +17,13 @@ bash 'extract ngspice' do
   not_if { ::File.exist? '/usr/local/src/ngspice-27' }
 end
 
-packages = ['libxaw7-dev']
+case node[:platform]
+when 'ubuntu'
+  packages = ['build-essential', 'libxaw7-dev']
+when 'centos'
+  packages = ['libXaw-devel', 'gcc']
+end
+
 packages.each{|p|
   package p do
     action :install

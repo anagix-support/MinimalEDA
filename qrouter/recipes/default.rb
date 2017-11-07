@@ -3,7 +3,6 @@
 # Recipe:: default
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
-
 include_recipe 'magic'
 
 remote_file '/usr/local/src/qrouter-1.3.91.tgz' do
@@ -19,8 +18,13 @@ bash 'extract qrouter' do
   not_if { ::File.exist? '/usr/local/src/qrouter-1.3.91' }
 end
 
+case node[:platform]
+when 'ubuntu'
+  packages = ['tk-dev']
+when 'centos'
+  packages = ['tk-devel', 'libXt-devel']
+end
 
-packages = ['tk-dev']
 packages.each{|p|
   package p do
     action :install
