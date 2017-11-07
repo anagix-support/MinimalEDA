@@ -20,7 +20,7 @@ case node[:platform]
 when 'ubuntu'
   packages = ['build-essential', 'autoconf', 'flex', 'bison', 'gperf']
 when 'centos'
-  packages = ['gperf', 'autoconf', 'gcc', 'flex', 'bison', 'gcc-c++']
+  packages = ['gperf', 'autoconf', 'gcc', 'flex', 'bison', 'gcc-c++', 'make']
 end
 
 packages.each{|p|
