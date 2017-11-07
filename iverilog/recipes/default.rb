@@ -6,13 +6,23 @@
 
 # git clone https://github.com/steveicarus/iverilog.git
 
+package "git" do
+  action :install
+end
+
 git '/usr/local/src/iverilog' do
   repository 'https://github.com/steveicarus/iverilog.git'
   revision 'master'
   action :sync
 end
 
-packages = ['flex', 'bison', 'gperf']
+case node[:platform]
+when 'ubuntu'
+  packages = ['build-essential', 'autoconf', 'flex', 'bison', 'gperf']
+when 'centos'
+  packages = ['gperf', 'autoconf', 'gcc', 'flex', 'bison', 'gcc-c++']
+end
+
 packages.each{|p|
   package p do
     action :install
@@ -23,7 +33,7 @@ bash 'build iverilog' do
   install_path = '/usr/local/bin/iverilog'
   cwd '/usr/local/src/iverilog'
   code <<-EOF
-    autoconf
+   autoconf
     ./configure
     make && make install
   EOF

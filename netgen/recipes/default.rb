@@ -19,7 +19,13 @@ bash 'extract netgen' do
   not_if { ::File.exist? '/usr/local/src/netgen-1.4.81' }
 end
 
-packages = ['tk-dev', 'tcl-dev']
+case node[:platform]
+when 'ubuntu'
+  packages = ['build-essential', 'tk-dev', 'tcl-dev', 'm4']
+when 'centos'
+  packages = ['tk-devel', 'tcl-devel', 'm4', 'gcc']
+end
+
 packages.each{|p|
   package p do
     action :install
