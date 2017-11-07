@@ -21,7 +21,7 @@ case node[:platform]
 when 'ubuntu'
   packages = ['build-essential', 'tk-dev', 'tcl-dev', 'm4']
 when 'centos'
-  packages = ['tcl-devel', 'tk-devel', 'm4', 'gcc']
+  packages = ['tcl-devel', 'tk-devel', 'm4', 'gcc', 'make']
 end
 
 packages.each{|p|
