@@ -18,7 +18,7 @@ case node[:platform]
 when 'ubuntu', 'debian'
   packages = ['build-essential', 'cmake', 'libgsl-dev', 'libx11-dev', 'pkg-config']
 when 'centos'
-  packages = ['gsl-devel', 'libX11-devel', 'cmake', 'gcc','gcc-c++']
+  packages = ['gsl-devel', 'libX11-devel', 'cmake', 'gcc', 'gcc-c++', 'make']
 end
 
 packages.each{|p|
