@@ -67,3 +67,5 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
 ## 0.3.0:
  	* dependency on 'build-essential' removed
 	* bash gem install replaced w/ gem_package because setting PATH does not work
+## 0.3.1:
+        * dependency on 'build-essential' revived

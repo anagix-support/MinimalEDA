@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# include_recipe 'build-essential'
+include_recipe 'build-essential'
 include_recipe 'openssl'
 include_recipe 'anagix_init'
 
