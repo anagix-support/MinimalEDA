@@ -83,9 +83,11 @@ elsif node[:platform_family] == 'debian'
       wget -nc https://dl.winehq.org/wine-builds/Release.key
       apt-key add Release.key
       apt-add-repository #{wine_repo}
+      apt-get update
+      apt-get install -y --install-recommends winehq-stable
    EOH
   end
-  targets << 'wine' if `which wine` == ''
+  targets << 'wine' if `which wine` == '' && !File.exist?('/usr/bin/wine')
 else
   targets << 'wine' if `which wine` == ''
 end
@@ -107,25 +109,25 @@ template File.join(install_path, 'bin/install_ltspice') do
   action :create
 end
 
-=begin
-# this does not work because X which may not available during Vagrant installation
-ruby_block 'Install LTspice' do
-  block do
-    target_dir = '/export/home/anagix/.wine/drive_c/Program Files/LTC/LTspiceIV'
-    unless File.directory? target_dir
-      Dir.chdir('/tmp'){
-        system 'wget http://ltspice.linear.com/software/LTspiceIV.exe' unless File.exist? 'LTspiceIV.exe'
-        system 'wine ./LTspiceIV.exe'
-        puts 'LTspice installed'
-      }
-    end
-    Dir.chdir target_dir
-    if File.exist? 'ltsputil.exe'
-      puts 'Nothing to do --- ltspice and ltsputil have been already installed'
-    else
-      system 'wget http://alb.anagix.com:8180/dist/ltsputil.exe && chmod +x ltsputil.exe'
-      puts "ltsputil.exe installed under #{Dir.pwd}" if File.exist? 'ltsputil.exe'
-    end
-  end
-end
-=end
+#=begin
+## this does not work because X which may not available during Vagrant installation
+#ruby_block 'Install LTspice' do
+#  block do
+#    target_dir = '/export/home/anagix/.wine/drive_c/Program Files/LTC/LTspiceIV'
+#    unless File.directory? target_dir
+#      Dir.chdir('/tmp'){
+#        system 'wget http://ltspice.linear.com/software/LTspiceIV.exe' unless File.exist? 'LTspiceIV.exe'
+#        system 'wine ./LTspiceIV.exe'
+#        puts 'LTspice installed'
+#      }
+#    end
+#    Dir.chdir target_dir
+#    if File.exist? 'ltsputil.exe'
+#      puts 'Nothing to do --- ltspice and ltsputil have been already installed'
+#    else
+#      system 'wget http://alb.anagix.com:8180/dist/ltsputil.exe && chmod +x ltsputil.exe'
+#      puts "ltsputil.exe installed under #{Dir.pwd}" if File.exist? 'ltsputil.exe'
+#    end
+#  end
+#end
+#=end

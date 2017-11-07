@@ -64,3 +64,6 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
 	* qtbindings version fixed to 4.8.6.2 (for linuxmint 18.2, ruby 2.2.4p230)
 ## 0.2.7: 
 	* temporarily use /usr/local/anagix_tools/qt-4
+## 0.3.0:
+ 	* dependency on 'build-essential' removed
+	* bash gem install replaced w/ gem_package because setting PATH does not work

@@ -42,3 +42,5 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
 ## 0.2.0:
 	* do not use 'ruby-devel' because it causes system ruby installation
 	* recovered lost files under templates/default
+## 0.3.0:
+	* dependence on 'apt' and 'build-essential' removed

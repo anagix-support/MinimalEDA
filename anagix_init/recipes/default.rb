@@ -7,18 +7,21 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'build-essential'
+#include_recipe 'build-essential'
 
 #### User and Home ###
 
 packages = ['git']
+
+#=begin
 case node[:platform]
 when 'ubuntu', 'debian', 'linuxmint'
   #  packages = ['ruby-dev', 'git']      # changed not to use ruby-dev because it installs ruby as well
-  include_recipe 'apt::default'  # expected to perform apt-get update
+#  include_recipe 'apt::default'  # expected to perform apt-get update
 when 'centos', 'redhat'
   # packages = ['ruby-devel', 'git']
 end
+#=end
 
 packages.each{|p|
   package p do

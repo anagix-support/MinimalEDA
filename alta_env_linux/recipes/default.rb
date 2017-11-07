@@ -66,7 +66,7 @@ tgz_packs.each{|src|
 
 case node[:platform]
 when 'ubuntu', 'debian', 'linuxmint'
-  packages = ['wget', 'cmake',  'libgl1-mesa-dev', 'libglu1-mesa-dev', 'libxml2-dev', 'libxslt-dev', 'libqt4-dev', 'zlib1g-dev']
+  packages = ['wget', 'cmake',  'libgl1-mesa-dev', 'libglu1-mesa-dev', 'libxml2-dev', 'libxslt-dev', 'libqt4-dev', 'zlib1g-dev', 'software-properties-common', 'apt-transport-https']
 when 'centos', 'redhat'
   packages = ['wget', 'cmake', 'libX11-devel', 'mesa-libGL-devel', 'mesa-libGLU-devel', 'libxml2-devel', 'libxslt-devel', 'qt4', 'qt4-devel', 'which']
 end
@@ -102,32 +102,32 @@ if node[:platform_family] == 'debian' && File.exist?('/usr/bin/startkde') # KDE 
     end
   }
 else                     # use chef's ruby
-  binaries = ['ruby', 'gem', 'irb'].each{|bin|
-    link "/usr/local/anagix_tools/bin/#{bin}" do
-      owner 'anagix'
-      to "/opt/chef/embedded/bin/#{bin}"
-      not_if { ::File.exist? "/usr/local/anagix_tools/bin/#{bin}" }
-    end
-  }
+#  binaries = ['ruby', 'gem', 'irb'].each{|bin|
+#    link "/usr/local/anagix_tools/bin/#{bin}" do
+#      owner 'anagix'
+#      to "/opt/chef/embedded/bin/#{bin}"
+#      not_if { ::File.exist? "/usr/local/anagix_tools/bin/#{bin}" }
+#    end
+#  }
 
 #=begin  
-  remote_file File.join('/tmp', 'qt4.tgz')  do
-    source File.join alb_dist_path, 'qt4.tgz'
-    owner 'anagix'
-    mode 00600
-    action :create
-    not_if { ::File.exist? '/tmp/qt4.tgz' }
-    notifies :run, "bash[extract qt4.tgz]", :immediately
-  end
-
-  bash "extract qt4.tgz" do
-    cwd File.join(install_path, '..')
-    user 'anagix'
-    code <<-EOH
-        tar xzf #{File.join '/tmp', 'qt4.tgz'}
-        EOH
-    action :nothing
-  end
+#  remote_file File.join('/tmp', 'qt4.tgz')  do
+#    source File.join alb_dist_path, 'qt4.tgz'
+#    owner 'anagix'
+#    mode 00600
+#    action :create
+#    not_if { ::File.exist? '/tmp/qt4.tgz' }
+#    notifies :run, "bash[extract qt4.tgz]", :immediately
+#  end
+#
+#  bash "extract qt4.tgz" do
+#    cwd File.join(install_path, '..')
+#    user 'anagix'
+#    code <<-EOH
+#        tar xzf #{File.join '/tmp', 'qt4.tgz'}
+#        EOH
+#    action :nothing
+#  end
 #=end
 
   gem_packages << ['qtbindings', '4.8.6.2']
@@ -138,12 +138,8 @@ else                     # use chef's ruby
       v = '-v='+g[1]
       g = g[0]
     end
-    bash "gem install #{g}" do
-      # user 'anagix'
-      code <<-EOH
-    export PATH=#{node['languages']['ruby']['bin_dir']}:/usr/local/anagix_tools/qt-4/bin:$PATH
-    if ! gem list #{g} -i; then gem install #{g} #{v} --no-ri --no-rdoc; fi
-    EOH
+    gem_package g do
+      options "#{v} --no-ri --no-rdoc"
     end
   }
 end
