@@ -22,7 +22,7 @@ case node[:platform]
 when 'ubuntu'
   packages = ['tk-dev']
 when 'centos'
-  packages = ['tk-devel', 'libXt-devel']
+  packages = ['tk-devel', 'libXt-devel', 'make']
 end
 
 packages.each{|p|
