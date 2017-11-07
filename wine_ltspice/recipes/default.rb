@@ -65,6 +65,27 @@ if node[:platform_family] == 'rhel' && node[:platform_version] >= '7.0'
       yum -y localinstall *.rpm
       EOH
   end
+elsif node[:platform_family] == 'debian'
+  if node[:platform] == 'ubuntu'
+    wine_repo = 'https://dl.winehq.org/wine-builds/ubuntu/'
+  elsif node[:platform] == 'linuxmint'
+    if node[:platform_version] >= '8'
+      wine_repo = "'deb https://dl.winehq.org/wine-builds/ubuntu/ xenial main'"
+    else # <= '7'
+      wine_repo = "'deb https://dl.winehq.org/wine-builds/ubuntu/ trusty main'"
+    end
+  end
+  bash "localinstall wine on #{node[:platform]}" do
+    cwd '/tmp'
+    user 'root'
+    code <<-EOH
+      dpkg --add-architecture i386
+      wget -nc https://dl.winehq.org/wine-builds/Release.key
+      apt-key add Release.key
+      apt-add-repository #{wine_repo}
+   EOH
+  end
+  targets << 'wine' if `which wine` == ''
 else
   targets << 'wine' if `which wine` == ''
 end

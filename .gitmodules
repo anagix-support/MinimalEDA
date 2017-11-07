@@ -4,3 +4,6 @@
 [submodule "my_apache2_for_alb2"]
 	path = my_apache2_for_alb2
 	url = https://github.com/anagix-support/my_apache2_for_alb2.git
+[submodule "openssl"]
+	path = openssl
+	url = https://github.com/chef-cookbooks/openssl.git

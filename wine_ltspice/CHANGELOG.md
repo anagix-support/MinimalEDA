@@ -18,3 +18,5 @@ This file is used to list changes made in each version of wine_ltspice.
 ## 0.2.0:
 * do not install wine if wine has been installed manually (Ubuntu 16.04 fails to apt-get install)
 * templates/default/install_ltspice restored (has been lost even in Anagix Chef server)
+## 0.3.0:
+* Follow Wine instruction from WineHQ for Ubuntu: https://wiki.winehq.org/Ubuntu
