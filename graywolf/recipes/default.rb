@@ -4,13 +4,23 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
+package "git" do
+  action :install
+end
+
 git '/usr/local/src/graywolf' do
   repository 'https://github.com/rubund/graywolf.git'
   revision 'master'
   action :sync
 end
 
-packages = ['cmake', 'libgsl-dev', 'libx11-dev']
+case node[:platform]
+when 'ubuntu', 'debian'
+  packages = ['build-essential', 'cmake', 'libgsl-dev', 'libx11-dev', 'pkg-config']
+when 'centos'
+  packages = ['gsl-devel', 'libX11-devel', 'cmake', 'gcc','gcc-c++']
+end
+
 packages.each{|p|
   package p do
     action :install
