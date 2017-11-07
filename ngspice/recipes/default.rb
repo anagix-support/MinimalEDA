@@ -21,7 +21,7 @@ case node[:platform]
 when 'ubuntu'
   packages = ['build-essential', 'libxaw7-dev']
 when 'centos'
-  packages = ['libXaw-devel', 'gcc']
+  packages = ['libXaw-devel', 'gcc', 'make']
 end
 
 packages.each{|p|
