@@ -22,7 +22,7 @@ bash 'extract qflow' do
   not_if { ::File.exist? '/usr/local/src/qflow-1.1.74' }
 end
 
-packages = ['tcsh']
+packages = ['tcsh','make']
 packages.each{|p|
   package p do
     action :install
