@@ -4,6 +4,8 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
+include_recipe 'build-essential'
+
 remote_file '/usr/local/src/dinotrace-9.4e.tgz' do
   source 'https://www.veripool.org/ftp/dinotrace-9.4e.tgz'
   mode '0755'
