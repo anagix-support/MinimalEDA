@@ -17,9 +17,9 @@ when 'ubuntu'
   packages = ['clang', 'python3', 'tcl-dev', 'libreadline-dev', 'libffi-dev', 'mercurial-git', 'gawk']
 when 'centos'
   if node['platform_version'].to_i == 6 then
-    packages = ['wget','tcl-devel', 'readline-devel','bison','libffi-devel','gcc','zip']
+    packages = ['wget', 'tcl-devel', 'readline-devel', 'libffi-devel', 'gcc', 'zip']
   elsif node['platform_version'].to_i == 7 then
-    packages = ['tcl-devel', 'readline-devel','bison','libffi-devel','gcc','zip','git-hg','make']
+    packages = ['tcl-devel', 'readline-devel', 'bison', 'libffi-devel', 'gcc', 'zip', 'git-hg', 'make']
   end
 end
 
@@ -78,14 +78,6 @@ when 'centos'
         make && make install
       EOF
       not_if 'rpm -qa |grep gcc-4.8.5*'
-    end
-   
-    bash 'change verilog_parser.y' do
-     cwd '/usr/local/src/yosys/frontends/verilog'
-     code <<-EOF
-       sed -i -e "142,143s:^:/*:" /usr/local/src/yosys/frontends/verilog/verilog_parser.y
-       sed -i -e "142,143s:$:*/:" /usr/local/src/yosys/frontends/verilog/verilog_parser.y
-     EOF
     end
   end
 end
