@@ -24,21 +24,6 @@ else # elsif RUBY_PLATFORM =~ /i686-linux/
   install_path = '/usr/local/anagix_tools'
 end
 
-if (['centos', 'redhat'].include? node[:platform]) && !File.exist?('/etc/yum.repos.d/epel.repo')
-  template '/etc/yum.repos.d/epel-bootstrap.repo' do
-    # see: http://stackoverflow.com/questions/14016286/how-to-programmatically-install-the-latest-epel-release-rpm-without-knowing-its
-    source 'epel-bootstrap.repo'
-    action :create
-  end
-
-  bash 'install epel' do
-    code <<-EOH
-        yum --enablerepo=epel -y install epel-release
-        rm -f /etc/yum.repos.d/epel-bootstrap.repo
-        EOH
-  end
-end
-
 imagemagick = 'imagemagick'
 x11apps = 'x11-apps'
 if ['centos', 'redhat'].include? node[:platform]
@@ -48,22 +33,41 @@ end
 
 targets = ['xauth', x11apps, imagemagick]
 
-if node[:platform_family] == 'rhel' && node[:platform_version] >= '7.0'
-  remote_file '/tmp/winerpm.tgz' do
-    source File.join alb_dist_path, 'winerpm.tgz'
-    owner 'anagix'
-    group 'anagix'
-    action :create
-    not_if { ::File.exist? '/tmp/winerpm.tgz' }
-  end
-  bash 'localinstall wine' do
-    cwd '/tmp'
-    user 'root'
-    code <<-EOH
+if node[:platform_family] == 'rhel'
+  if node[:platform_version] >= '7.0'
+    remote_file '/tmp/winerpm.tgz' do
+      source File.join alb_dist_path, 'winerpm.tgz'
+      owner 'anagix'
+      group 'anagix'
+      action :create
+      not_if { ::File.exist? '/tmp/winerpm.tgz' }
+    end
+    bash 'localinstall wine' do
+      cwd '/tmp'
+      user 'root'
+      code <<-EOH
       tar xzf winerpm.tgz
       cd winerpm
       yum -y localinstall *.rpm
       EOH
+    end
+  elsif node[:platform] == 'redhat'
+    template '/etc/yum.repos.d/epel-bootstrap.repo' do
+      # see: http://stackoverflow.com/questions/14016286/how-to-programmatically-install-the-latest-epel-release-rpm-without-knowing-its
+      source 'epel-bootstrap.repo'
+      action :create
+    end
+    
+    bash 'install wien from epel' do
+      code <<-EOH
+        yum --enablerepo=epel -y install epel-release
+        rm -f /etc/yum.repos.d/epel-bootstrap.repo
+        yum install wine --enablerepo=epel
+        EOH
+    end
+  elsif node[:platform] == 'centos'
+    targets << 'epel-release'
+    targets << 'wine'
   end
 elsif node[:platform_family] == 'debian'
   if node[:platform] == 'ubuntu'

@@ -20,3 +20,7 @@ This file is used to list changes made in each version of wine_ltspice.
 * templates/default/install_ltspice restored (has been lost even in Anagix Chef server)
 ## 0.3.0:
 * Follow Wine instruction from WineHQ for Ubuntu: https://wiki.winehq.org/Ubuntu
+## 0.3.1:
+* Wine install for CentOS and RHEL revised:
+   CentOS6 to use 'yum install epel-release', RHEL to use old scheme (not tested)
+   CentOS7 to use Anagix built rpm for i686 (because epel wine for CentOS fails to install both LTspiceIV.exe and LTspiceXII.exe)
