@@ -18,7 +18,7 @@ bash 'extract magic' do
 end
 
 case node[:platform]
-when 'ubuntu'
+when 'ubuntu', 'debian'
   packages = ['csh', 'tk-dev', 'tcl-dev', 'm4']
 when 'centos'
   packages = ['csh', 'tk-devel', 'tcl-devel', 'm4', 'gcc', 'make']

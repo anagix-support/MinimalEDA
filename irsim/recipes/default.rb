@@ -18,7 +18,7 @@ bash 'extract irsim' do
 end
 
 case node[:platform]
-when 'ubuntu'
+when 'ubuntu', 'debian'
   packages = ['build-essential', 'tk-dev', 'tcl-dev', 'm4']
 when 'centos'
   packages = ['tcl-devel', 'tk-devel', 'm4', 'gcc', 'make']

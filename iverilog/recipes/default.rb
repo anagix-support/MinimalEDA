@@ -17,7 +17,7 @@ git '/usr/local/src/iverilog' do
 end
 
 case node[:platform]
-when 'ubuntu'
+when 'ubuntu', 'debian'
   packages = ['build-essential', 'autoconf', 'flex', 'bison', 'gperf']
 when 'centos'
   if node['platform_version'].to_i == 6 then

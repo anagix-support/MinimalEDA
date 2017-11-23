@@ -19,8 +19,8 @@ bash 'extract qrouter' do
 end
 
 case node[:platform]
-when 'ubuntu'
-  packages = ['tk-dev']
+when 'ubuntu', 'debian'
+  packages = ['tk-dev', 'make']
 when 'centos'
   packages = ['tk-devel', 'libXt-devel', 'make']
 end

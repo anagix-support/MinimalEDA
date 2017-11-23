@@ -13,8 +13,8 @@ git '/usr/local/src/yosys' do
 end
 
 case node[:platform]
-when 'ubuntu'
-  packages = ['clang', 'python3', 'tcl-dev', 'libreadline-dev', 'libffi-dev', 'mercurial-git', 'gawk']
+when 'ubuntu', 'debian'
+  packages = ['clang', 'python3', 'tcl-dev', 'libreadline-dev', 'libffi-dev', 'mercurial-git', 'gawk', 'gcc', 'make', 'zip']
 when 'centos'
   if node['platform_version'].to_i == 6 then
     packages = ['wget', 'tcl-devel', 'readline-devel', 'libffi-devel', 'gcc', 'zip']

@@ -18,7 +18,7 @@ bash 'extract ngspice' do
 end
 
 case node[:platform]
-when 'ubuntu'
+when 'ubuntu', 'debian'
   packages = ['build-essential', 'libxaw7-dev']
 when 'centos'
   packages = ['libXaw-devel', 'gcc', 'make']

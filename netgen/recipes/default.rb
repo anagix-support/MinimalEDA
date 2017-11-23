@@ -20,7 +20,7 @@ bash 'extract netgen' do
 end
 
 case node[:platform]
-when 'ubuntu'
+when 'ubuntu', 'debian'
   packages = ['build-essential', 'tk-dev', 'tcl-dev', 'm4']
 when 'centos'
   packages = ['tk-devel', 'tcl-devel', 'm4', 'gcc', 'make']

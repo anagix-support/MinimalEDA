@@ -4,7 +4,7 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-include_recipe 'build-essential'
+# include_recipe 'build-essential'
 
 remote_file '/usr/local/src/dinotrace-9.4e.tgz' do
   source 'https://www.veripool.org/ftp/dinotrace-9.4e.tgz'
@@ -20,8 +20,8 @@ bash 'extract dinotrace' do
 end
 
 case node[:platform]
-when 'ubuntu'
-  packages = ['build-essential','libmotif-dev']
+when 'ubuntu', 'debian'
+  packages = ['build-essential', 'libmotif-dev']
 when 'centos'
   packages = ['openmotif-devel','gcc']
 end
