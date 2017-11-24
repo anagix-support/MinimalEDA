@@ -21,7 +21,7 @@ end
 
 case node[:platform]
 when 'ubuntu', 'debian'
-  packages = ['build-essential', 'libmotif-dev']
+  packages = ['libmotif-dev']
 when 'centos'
   packages = ['openmotif-devel','gcc']
 end

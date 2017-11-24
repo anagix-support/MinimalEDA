@@ -18,7 +18,7 @@ end
 
 case node[:platform]
 when 'ubuntu', 'debian'
-  packages = ['build-essential', 'liblzma-dev', 'libgtk2.0-dev', 'tcl-dev', 'tk-dev', 'gperf']
+  packages = ['liblzma-dev', 'libgtk2.0-dev', 'tcl-dev', 'tk-dev', 'gperf']
 when 'centos'
   packages = ['tcl-devel', 'tk-devel', 'xz-devel', 'gperf', 'gcc-c++', 'gtk2-devel', 'make']
 end
