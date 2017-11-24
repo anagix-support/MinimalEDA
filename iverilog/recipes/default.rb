@@ -18,7 +18,7 @@ end
 
 case node[:platform]
 when 'ubuntu', 'debian'
-  packages = ['build-essential', 'autoconf', 'flex', 'bison', 'gperf']
+  packages = ['g++', 'make', 'autoconf', 'flex', 'bison', 'gperf']
 when 'centos'
   if node['platform_version'].to_i == 6 then
     packages = ['gperf', 'autoconf', 'gcc', 'flex', 'gcc-c++']
