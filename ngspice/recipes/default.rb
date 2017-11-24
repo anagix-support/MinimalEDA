@@ -19,7 +19,7 @@ end
 
 case node[:platform]
 when 'ubuntu', 'debian'
-  packages = ['build-essential', 'libxaw7-dev']
+  packages = ['gcc', 'bison', 'make', 'libxaw7-dev']
 when 'centos'
   packages = ['libXaw-devel', 'gcc', 'make']
 end
