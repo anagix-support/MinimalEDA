@@ -6,17 +6,17 @@
 
 
 
-remote_file '/usr/local/src/netgen-1.4.81.tgz' do
-  source 'http://opencircuitdesign.com/netgen/archive/netgen-1.4.81.tgz'
+remote_file '/usr/local/src/netgen-1.5.89.tgz' do
+  source 'http://opencircuitdesign.com/netgen/archive/netgen-1.5.89.tgz'
   mode '0755'
 end
 
 bash 'extract netgen' do
   cwd '/usr/local/src'
   code <<-EOH
-    tar xzf /usr/local/src/netgen-1.4.81.tgz
+    tar xzf /usr/local/src/netgen-1.5.89.tgz
   EOH
-  not_if { ::File.exist? '/usr/local/src/netgen-1.4.81' }
+  not_if { ::File.exist? '/usr/local/src/netgen-1.5.89' }
 end
 
 case node[:platform]
@@ -34,7 +34,7 @@ packages.each{|p|
 
 bash 'build netgen' do
   install_path = '/usr/local/bin/netgen'
-  cwd '/usr/local/src/netgen-1.4.81'
+  cwd '/usr/local/src/netgen-1.5.89'
   code <<-EOF
     ./configure
     make && make install
