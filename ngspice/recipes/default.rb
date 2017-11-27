@@ -24,6 +24,11 @@ when 'centos'
   packages = ['libXaw-devel', 'gcc', 'make']
 end
 
+link '/bin/env' do
+  owner 'root'
+  to '/usr/bin/env'
+end unless File.exist? '/bin/env'
+
 packages.each{|p|
   package p do
     action :install
