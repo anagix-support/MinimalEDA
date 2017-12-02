@@ -4,7 +4,7 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-foods = ['qrouter', 'graywolf', 'yosys', 'ngspice', 'irsim', 'dinotrace', 'netgen']
+foods = ['qrouter', 'graywolf', 'yosys', 'ngspice', 'irsim', 'iverilog', 'dinotrace', 'netgen']
 foods.each{|f|
   include_recipe f
 }
