@@ -38,7 +38,7 @@ bash 'build netgen' do
   code <<-EOF
     ./configure
     make && make install
-    sed -i sed -e 's:#\!/bin/sh:#\!/bin/bash:' #{install_path}
+    sed -i -e 's:#\!/bin/sh:#\!/bin/bash:' #{install_path}
   EOF
   not_if { ::File.exist? install_path }
 end
