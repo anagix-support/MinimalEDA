@@ -17,7 +17,7 @@ when 'ubuntu', 'debian'
   packages = ['clang', 'python3', 'tcl-dev', 'libreadline-dev', 'libffi-dev', 'mercurial-git', 'gawk', 'gcc', 'make', 'zip']
 when 'centos'
   if node['platform_version'].to_i == 6 then
-    packages = ['wget', 'tcl-devel', 'readline-devel', 'libffi-devel', 'gcc', 'zip']
+    packages = ['wget', 'tcl-devel', 'readline-devel', 'libffi-devel', 'gcc', 'zip', 'clang']
   elsif node['platform_version'].to_i == 7 then
     packages = ['tcl-devel', 'readline-devel', 'bison', 'libffi-devel', 'gcc', 'zip', 'git-hg', 'make']
   end
@@ -86,6 +86,8 @@ bash 'build yosys' do
   install_path = '/usr/local/bin/yosys'
   cwd '/usr/local/src/yosys'
   code <<-EOF
+    #{(node[:platform] == 'centos' && node['platform_version'].to_i == 6) ?
+       "sed -i -e 's/ --insecure/ /g' Makefile":''}
     make config-gcc
     make && make install
   EOF
