@@ -4,8 +4,28 @@
 #
 # Copyright:: 2018, The Authors, All Rights Reserved.
 
+SRC_DIR = '/usr/local/src/alliance' 
+ALLIANCE_TOP = '/opt/alliance'
+
+[SRC_DIR, ALLIANCE_TOP].each{|dir|
+  directory dir do
+    action :create
+  end
+}
+
 case node[:platform]
 when 'ubuntu', 'debian'
+  template File.join(SRC_DIR, 'fix-flex-2.6.patch') do
+    source 'fix-flex-2.6.patch'
+    action :create
+  end
+  
+  execute 'patch for ubuntu' do
+    cwd File.join(SRC_DIR, 'alliance/src/sea/src')
+    command 'patch DEF_grammar_lex.l < ../../../../fix-flex-2.6.patch'
+    not_if { ::File.exists? 'DEF_grammar_lex.l.orig' }
+  end
+
   packages = %w( build-essential git gcc g++ autoconf automake libtool bison flex libx11-dev libxt-dev libxaw7-dev libxpm-dev libmotif-dev xfig imagemagick texlive texlive-pictures texlive-latex-extra transfig )
 when 'centos'
   execute "yum update" do
@@ -26,19 +46,11 @@ packages.each{|pkg|
   end
 } 
 
-SRC_DIR = '/usr/local/src/alliance' 
-ALLIANCE_TOP = '/opt/alliance'
-
-[SRC_DIR, ALLIANCE_TOP].each{|dir|
-  directory dir do
-    action :create
-  end
-}
-
-execute 'git clone' do
-  cwd File.join(SRC_DIR, '..')
-  command 'git clone https://www-soc.lip6.fr/git/alliance.git'
-end unless File.exist? SRC_DIR 
+git SRC_DIR do
+  repository 'https://www-soc.lip6.fr/git/alliance.git'
+  reference 'master'
+  action :checkout
+end
 
 execute 'autostuff' do
   cwd File.join(SRC_DIR, 'alliance/src')

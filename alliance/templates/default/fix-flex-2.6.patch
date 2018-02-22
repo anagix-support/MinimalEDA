@@ -1,0 +1,20 @@
+Description: Fix FTBFS with released 2.6 flex.
+Author: Dimitri John Ledkov <xnox@ubuntu.com>
+Bug-Debian: https://bugs.debian.org/818517
+
+--- alliance-5.1.1.orig/sea/src/DEF_grammar_lex.l
++++ alliance-5.1.1/sea/src/DEF_grammar_lex.l
+@@ -20,10 +20,11 @@
+ #define    yylval       DEF_grammarlval
+ #define    yylineno     DEF_grammarlineno
+ 
+-
+-#ifndef FLEX_BETA 
++#if YY_FLEX_MAJOR_VERSION <= 2
++#if YY_FLEX_MINOR_VERSION < 6
+         int  yylineno = 1;
+ #endif
++#endif
+ 
+ 
+ static  int  yywrap(void);
