@@ -39,7 +39,7 @@ directory ALLIANCE_TOP do
     action :create
 end
 
-if ['ubuntu', 'debian'].include? node[:platform] && node[:platform_version] >= '16.04'
+if ['ubuntu', 'debian'].include?(node[:platform]) && node[:platform_version] >= '16.04'
   template File.join(SRC_DIR, 'fix-flex-2.6.patch') do
     source 'fix-flex-2.6.patch'
     action :create
@@ -74,6 +74,7 @@ end
 
 bash 'make' do
   cwd File.join(SRC_DIR, 'build')
+  timeout 36000
   code <<-EOT
     export ALLIANCE_TOP=#{ALLIANCE_TOP}
     export LD_LIBRARY_PATH=${ALLIANCE_TOP}/lib:${LD_LIBRARY_PATH}
