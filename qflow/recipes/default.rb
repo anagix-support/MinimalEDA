@@ -25,6 +25,13 @@ bash 'extract qflow' do
 end
 
 packages = ['tcsh','make']
+case node[:platform]
+when 'ubuntu', 'debian'
+  packages << 'python3-tk'
+when 'centos'
+  packages << 'python35u-tkinter'
+end
+
 packages.each{|p|
   package p do
     action :install
