@@ -4,17 +4,18 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-remote_file '/usr/local/src/magic-8.1.185.tgz' do
-  source 'http://opencircuitdesign.com/magic/archive/magic-8.1.185.tgz'
+current = 'magic-8.1.224'
+remote_file "/usr/local/src/#{current}.tgz" do
+  source "http://opencircuitdesign.com/magic/archive/#{current}.tgz"
   mode '0755'
 end
 
 bash 'extract magic' do
   cwd '/usr/local/src'
   code <<-EOH
-    tar xzf /usr/local/src/magic-8.1.185.tgz
+    tar xzf /usr/local/src/#{current}.tgz
   EOH
-  not_if { ::File.exist? '/usr/local/src/magic-8.1.185' }
+  not_if { ::File.exist? "/usr/local/src/#{current}" }
 end
 
 case node[:platform]
@@ -32,7 +33,7 @@ packages.each{|p|
 
 bash 'build magic' do
   install_path = '/usr/local/bin/magic'
-  cwd '/usr/local/src/magic-8.1.185'
+  cwd "/usr/local/src/#{current}"
   code <<-EOF
     ./configure
     make && make install

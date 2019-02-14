@@ -3,17 +3,20 @@
 # Recipe:: default
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
-remote_file '/usr/local/src/gtkwave-3.3.86.tar.gz' do
-  source 'https://sourceforge.net/projects/gtkwave/files/gtkwave-3.3.86/gtkwave-3.3.86.tar.gz'
+
+current = 'gtkwave-3.3.99' # gtkwave-3.3.86
+
+remote_file "/usr/local/src/#{current}.tar.gz" do
+  source "https://sourceforge.net/projects/gtkwave/files/#{current}/#{current}.tar.gz"
   mode '0755'
 end
 
 bash 'extract gtkwave' do
   cwd '/usr/local/src'
   code <<-EOH
-    tar xzf /usr/local/src/gtkwave-3.3.86.tar.gz
+    tar xzf /usr/local/src/#{current}.tar.gz
   EOH
-  not_if { ::File.exist? '/usr/local/src/gtkwave-3.3.86' }
+  not_if { ::File.exist? "/usr/local/src/#{current}" }
 end
 
 case node[:platform]
@@ -30,7 +33,7 @@ packages.each{|p|
 
 bash 'build gtkwave' do
   install_path = '/usr/local/bin/gtkwave'
-  cwd '/usr/local/src/gtkwave-3.3.86'
+  cwd "/usr/local/src/#{current}"
   code <<-EOF
     ./configure
     make && make install

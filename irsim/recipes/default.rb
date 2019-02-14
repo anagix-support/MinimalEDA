@@ -4,17 +4,19 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-remote_file '/usr/local/src/irsim-9.7.98.tgz' do
-  source 'http://opencircuitdesign.com/irsim/archive/irsim-9.7.98.tgz'
+current = 'irsim-9.7.101' # irsim-9.7.98
+
+remote_file "/usr/local/src/#{current}.tgz" do
+  source "http://opencircuitdesign.com/irsim/archive/#{current}.tgz"
   mode '0755'
 end
 
 bash 'extract irsim' do
   cwd '/usr/local/src'
   code <<-EOH
-    tar xzf /usr/local/src/irsim-9.7.98.tgz
+    tar xzf /usr/local/src/#{current}.tgz
   EOH
-  not_if { ::File.exist? '/usr/local/src/irsim-9.7.98' }
+  not_if { ::File.exist? "/usr/local/src/#{current}" }
 end
 
 case node[:platform]
@@ -32,7 +34,7 @@ packages.each{|p|
 
 bash 'build irsim' do
   install_path = '/usr/local/bin/irsim'
-  cwd '/usr/local/src/irsim-9.7.98'
+  cwd "/usr/local/src/#{current}"
   code <<-EOF
     ./configure
     make && make install
