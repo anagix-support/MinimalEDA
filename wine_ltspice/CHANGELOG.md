@@ -23,4 +23,7 @@ This file is used to list changes made in each version of wine_ltspice.
 ## 0.3.1:
 * Wine install for CentOS and RHEL revised:
    CentOS6 to use 'yum install epel-release', RHEL to use old scheme (not tested)
-   CentOS7 to use Anagix built rpm for i686 (because epel wine for CentOS fails to install both LTspiceIV.exe and LTspiceXII.exe)
+	CentOS7 to use Anagix built rpm for i686 (because epel wine for CentOS fails to install both LTspiceIV.exe and LTspiceXII.exe)
+## 0.3.2
+*winehp key changed:
+	wget -nc https://dl.winehq.org/wine-builds/winehq.key

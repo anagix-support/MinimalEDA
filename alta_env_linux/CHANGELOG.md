@@ -69,3 +69,6 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
 	* bash gem install replaced w/ gem_package because setting PATH does not work
 ## 0.3.1:
         * dependency on 'build-essential' revived
+## 0.3.2:
+	* build-essential removed again because it is now included in chef
+        * openssl removed because it is now included in chef

@@ -7,8 +7,8 @@
 # All rights reserved - Do Not Redistribute
 #
 
-include_recipe 'build-essential'
-include_recipe 'openssl'
+#include_recipe 'build-essential'
+#include_recipe 'openssl'
 include_recipe 'anagix_init'
 
 if RUBY_PLATFORM =~ /darwin/
@@ -66,7 +66,9 @@ tgz_packs.each{|src|
 
 case node[:platform]
 when 'ubuntu', 'debian', 'linuxmint'
-  packages = ['wget', 'cmake',  'libgl1-mesa-dev', 'libglu1-mesa-dev', 'libxml2-dev', 'libxslt-dev', 'libqt4-dev', 'zlib1g-dev', 'software-properties-common', 'apt-transport-https']
+  packages = ['wget', 'cmake',  'libgl1-mesa-dev', 'libglu1-mesa-dev', 'libxml2-dev', 'libxslt-dev', 'libqt4-dev', 'zlib1g-dev', 'software-properties-common', 'apt-transport-https',
+             # 'libqtruby4shared2', 'libsmokeqtxml4-3', 'libsmokeqtopengl4-3', 'libsmokeqtsql.so.3', 'libsmokeqtsql4-3', 'libsmokeqtnetwork4-3', 'libsmokeqtdbus4-3', 'libsmokeqtsvg4-3'
+              'libqt4-opengl']
 when 'centos', 'redhat'
   packages = ['wget', 'cmake', 'libX11-devel', 'mesa-libGL-devel', 'mesa-libGLU-devel', 'libxml2-devel', 'libxslt-devel', 'qt4', 'qt4-devel', 'which']
 end
@@ -130,16 +132,23 @@ else                     # use chef's ruby
 #  end
 #=end
 
-  gem_packages << ['qtbindings', '4.8.6.2']
+#  gem_packages << ['qtbindings', '4.8.6.2']
+  gem_packages << 'qtbindings'
 
   gem_packages.each{|g|
-    v = ''
+    # v = ''
     if g.class == Array
-      v = '-v='+g[1]
+      # v = '-v='+g[1]
+      v = g[1]
       g = g[0]
-    end
-    gem_package g do
-      options "#{v} --no-ri --no-rdoc"
+      gem_package g do
+        version v
+        options "#{v} --no-ri --no-rdoc"
+      end
+    else
+      gem_package g do
+        options "--no-ri --no-rdoc"
+      end
     end
   }
 end
