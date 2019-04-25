@@ -4,7 +4,7 @@ maintainer_email "seijiro.moriyama@anagix.com"
 license          "All rights reserved"
 description      "Installs/Configures alta_env_linux"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          "0.3.2"
+version          "0.3.3"
 #depends 'build-essential'
 depends 'wine_ltspice'
 # depends 'anagix_init' ==> wine_ltspice depends on anagix_init

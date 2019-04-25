@@ -72,3 +72,5 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
 ## 0.3.2:
 	* build-essential removed again because it is now included in chef
         * openssl removed because it is now included in chef
+## 0.3.3:
+	* gem clipboard added

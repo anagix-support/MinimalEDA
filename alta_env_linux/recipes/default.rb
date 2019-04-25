@@ -90,8 +90,7 @@ unless RUBY_PLATFORM =~ /darwin/
 end
 
 gem_packages = ['activesupport', 'mechanize', 'rubyzip', 'zip-zip', 'archive-tar-minitar',
-               'github_api', 'gitlab']
-
+               'github_api', 'gitlab', 'clipboard']
 if node[:platform_family] == 'debian' && File.exist?('/usr/bin/startkde') # KDE is installed
   package 'ruby-qt4' do  # use system's ruby
     action :install
