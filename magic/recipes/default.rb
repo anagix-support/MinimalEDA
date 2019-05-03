@@ -4,7 +4,7 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-current = 'magic-8.1.224'
+current = 'magic-8.2.110'
 remote_file "/usr/local/src/#{current}.tgz" do
   source "http://opencircuitdesign.com/magic/archive/#{current}.tgz"
   mode '0755'

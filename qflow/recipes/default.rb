@@ -4,7 +4,7 @@
 #
 # Copyright:: 2017, The Authors, All Rights Reserved.
 
-current = 'qflow-1.3.12' # qflow-1.1.74
+current = 'qflow-1.3.13'
 
 foods = ['qrouter', 'graywolf', 'yosys', 'ngspice', 'irsim', 'iverilog', 'dinotrace', 'netgen']
 foods.each{|f|
