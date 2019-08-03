@@ -5,7 +5,7 @@
 # Copyright:: 2017, The Authors, All Rights Reserved.
 include_recipe 'magic'
 
-current = 'qrouter-1.4.57'
+current = 'qrouter-1.4.59'
 remote_file "/usr/local/src/#{current}.tgz" do
   source "http://opencircuitdesign.com/qrouter/archive/#{current}.tgz"
   mode '0755'
