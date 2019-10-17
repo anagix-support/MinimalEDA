@@ -31,7 +31,7 @@ packages.each{|p|
 
 gem_package 'ruby-shadow' do
   package_name 'ruby-shadow'
-  options "--no-ri --no-rdoc"
+  options "-N"
 end
 
 user 'anagix' do

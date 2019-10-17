@@ -99,7 +99,7 @@ if node[:platform_family] == 'debian' && File.exist?('/usr/bin/startkde') # KDE 
   gem_packages.each{|g|
     gem_package g do
       package_name g
-      options "--no-ri --no-rdoc"
+      options "-N"
     end
   }
 else                     # use chef's ruby
@@ -142,11 +142,11 @@ else                     # use chef's ruby
       g = g[0]
       gem_package g do
         version v
-        options "#{v} --no-ri --no-rdoc"
+        options "#{v} -N"
       end
     else
       gem_package g do
-        options "--no-ri --no-rdoc"
+        options "-N"
       end
     end
   }

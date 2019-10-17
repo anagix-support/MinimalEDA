@@ -58,7 +58,7 @@ if node[:platform_family] == 'rhel'
       action :create
     end
     
-    bash 'install wien from epel' do
+    bash 'install wine from epel' do
       code <<-EOH
         yum --enablerepo=epel -y install epel-release
         rm -f /etc/yum.repos.d/epel-bootstrap.repo
@@ -70,8 +70,16 @@ if node[:platform_family] == 'rhel'
     targets << 'wine'
   end
 elsif node[:platform_family] == 'debian'
+  wine_install_type = 'winehq-stable'
+  libfaudio0_needed = nil
   if node[:platform] == 'ubuntu'
-    wine_repo = 'https://dl.winehq.org/wine-builds/ubuntu/'
+#    if node[:platform_version] >= '19.04'
+#      wine_repo = 'deb https://dl.winehq.org/wine-builds/ubuntu/ disco main'
+#      wine_install_type = 'winehq-devel'
+#      libfaudio0_needed = 'apt-add-repository ppa:cybermax-dexter/sdl2-backport'
+#    else
+      wine_repo = 'https://dl.winehq.org/wine-builds/ubuntu/'
+#    end
   elsif node[:platform] == 'linuxmint'
     if node[:platform_version] >= '8'
       wine_repo = "'deb https://dl.winehq.org/wine-builds/ubuntu/ xenial main'"
@@ -88,12 +96,13 @@ elsif node[:platform_family] == 'debian'
       #      apt-key add Release.key
       wget -nc https://dl.winehq.org/wine-builds/winehq.key
       apt-key add winehq.key
-      apt-add-repository #{wine_repo}
+      apt-add-repository '#{wine_repo}'
+      #{libfaudio0_needed}
       apt-get update
-      apt-get install -y --install-recommends winehq-stable
+      apt-get install -y --install-recommends #{wine_install_type}
    EOH
   end
-  targets << 'wine' if `which wine` == '' && !File.exist?('/usr/bin/wine')
+#  targets << 'wine' if `which wine` == '' && !File.exist?('/usr/bin/wine')
 else
   targets << 'wine' if `which wine` == ''
 end
@@ -106,6 +115,10 @@ targets.each{|pkg|
 
 # note: 'ploticus' needs to be installed from source
 
+unless File.directory? install_path
+  require 'fileutils'
+  FileUtils.mkdir_p install_path
+end
 template File.join(install_path, 'bin/install_ltspice') do
   # ltspice installation needs X which may not available during Vagrant installation
   source 'install_ltspice'

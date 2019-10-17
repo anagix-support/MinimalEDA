@@ -5,12 +5,24 @@
 # Copyright:: 2019, The Authors, All Rights Reserved.
 
 current = 'klayout-0.2.6'
+klayout_dist_path = 'http://alb.anagix.com:8180/dist/ubuntu19.04'
 
-git '/usr/local/src/klayout' do
-  repository 'https://github.com/KLayout/klayout.git'
-  revision 'master'
-  action :sync
+remote_file File.join '/tmp', src = 'klayout.tgz' do
+  source File.join klayout_dist_path, src
+  owner 'anagix'
+  group 'anagix'
+  action :create
+  not_if { ::File.exists?(File.join '/tmp', src) }
 end
+
+bash "extract #{src}" do
+  cwd File.join(install_path, '..')
+  user 'anagix'
+  code <<-EOH
+    tar xzf #{File.join '/tmp', src}
+    EOH
+end
+
 
 case node[:platform]
 when 'ubuntu', 'debian'
@@ -38,7 +50,6 @@ bash 'build klayout' do
   cwd '/usr/local/src/klayout'
   code <<-EOF
     ./build.sh -ruby /opt/chef/embedded/bin/ruby
-    make && make install
   EOF
   not_if { ::File.exist? install_path }
 end
