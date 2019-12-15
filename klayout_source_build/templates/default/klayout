@@ -1,0 +1,1 @@
+LD_LIBRARY_PATH=/opt/chef/embedded/lib /usr/bin/klayout

@@ -60,3 +60,13 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
 	* gem install github_api and gitlab added
 ## 0.2.3:
 	* silly bug fix related to above
+## 0.2.4:
+	* ltspice changed to LTspiceXVII
+	* gem_package 'clipboard' added
+## 0.2.5:
+	* alta.bat.erb and alta_slave.bat.erb templates
+	* node[:install_path]
+## 0.2.6:
+	* install_path set where chef/embedded resides and passed to templates
+	* pl.exe and gyazowin.exe set in alb2/public/dist
+	* ruby_installer.rb (content is nil) stored under install_path/lib/ruby/site_ruby which is necessary after ruby 2.5x

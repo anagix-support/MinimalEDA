@@ -11,8 +11,9 @@
 
 raise "*** alta_env does not make sense for #{node[:platform]}" unless RUBY_PLATFORM =~ /mswin32|mingw/
 
-['activesupport', 'mechanize', 'archive-tar-minitar', 'github_api', 'gitlab'].each{|g|
+['activesupport', 'mechanize', 'archive-tar-minitar', 'github_api', 'gitlab', 'clipboard'].each{|g|
   gem_package g do
+#    gem_binary 'c:\\opscode\\chef\\embedded\\bin\\gem'  # was needed with chef client 14.14.29
     package_name g
   end
 }
@@ -43,7 +44,7 @@ gem_package 'zip-zip' do
 end
 
 alb_dist_path = 'http://alb.anagix.com:8180/dist/'
-install_path = 'c:/opscode/chef/embedded'
+install_path = File.dirname(File.dirname `where ruby.exe`.chop)
 temp_dir = 'c:/opscode/temp'
 
 directory temp_dir do
@@ -66,42 +67,22 @@ end
 
 require 'fileutils'
 
-=begin
-# no longer needed 
-ruby_block 'move files' do
-  block do
-    Dir.chdir(File.join install_path, 'lib', 'ruby', 'site_ruby'){
-      FileUtils.mv Dir.glob('1.8/*'), '1.9.1'
-    }
-  end
-end
-=end
-
-if RUBY_VERSION <= '1.9.3'
-  ruby_block 'remove files under 1.9.1' do
-    block do
-      Dir.chdir(File.join install_path, 'lib', 'ruby', 'site_ruby'){
-        files = Dir.glob('*')
-        files.each{|f|
-          next if File.directory? f
-          Dir.chdir('1.9.1'){
-            File.delete f if File.exist? f
-          }
-        }
-      }
-    end
-  end
-end
-
 ['alta.bat', 'alta_slave.bat'].each{|file|
   template File.join(install_path, 'bin', file) do
-    source file
+    variables variables: {:install_path => install_path}
+    source file+'.erb'
     action :create
   end
 }
 
+template File.join(install_path, 'lib', 'ruby', 'site_ruby', 'ruby_installer.rb') do
+  source 'ruby_installer.rb'
+  action :create
+end
+
 ### install ploticus ###
 
+=begin
 remote_file File.join(temp_dir, 'pl.zip') do
   source File.join alb_dist_path, 'pl.zip'
   action :create
@@ -111,6 +92,12 @@ windows_zipfile File.join(install_path, 'bin') do
   source File.join(temp_dir, 'pl.zip')
   action :unzip
   not_if {::File.exists? File.join(install_path, 'bin', 'pl.exe')}
+end
+=end
+
+remote_file File.join File.join(install_path, 'bin', 'pl.exe') do
+  source 'http://alb.anagix.com:8180/dist/pl.exe'
+  action :create_if_missing
 end
 
 ### install snaka's gyazowin ###
@@ -122,22 +109,28 @@ remote_file File.join File.join(install_path, 'bin', 'gyazowin.exe') do
 end
 
 ### alta.conf ###
-
+=begin
 template File.join(File.expand_path('~'), 'alta.conf') do # Dir.home could work after ruby 1.9.3
   source 'alta.conf.erb'
   action :create_if_missing
 end
+=end
 
 ### ltspice ###
 
-unless File.exist?(File.join ENV['PROGRAMFILES'], 'LTC', 'LTspiceIV', 'scad3.exe')
+unless File.directory?(File.join ENV['PROGRAMFILES'], 'LTC', 'LTspiceXVII')
   windows_package 'LTspice' do
-    source 'http://ltspice.linear.com/software/LTspiceIV.exe'
+    source 'http://ltspice.analog.com/software/LTspiceXVII.exe'
     action :install
   end
 end
 
 remote_file File.join File.join(install_path, 'bin', 'ltsputil.exe') do
   source File.join alb_dist_path, 'ltsputil.exe'
+  action :create_if_missing
+end
+
+remote_file File.join File.join(install_path, 'bin', 'ltsputil17raw4.exe') do
+  source File.join alb_dist_path, 'ltsputil17raw4.exe'
   action :create_if_missing
 end

@@ -1,0 +1,3 @@
+set PATH=%PATH%;<%= File.join(node[:install_path], 'bin') %>
+cd <%= File.join(node[:install_path], 'lib', 'ruby', 'site_ruby') %>
+ruby alta.rb %1 %2 %3

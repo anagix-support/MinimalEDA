@@ -1,0 +1,3 @@
+set PATH=%PATH%;<%= File.join(@variables[:install_path], 'bin') %>
+cd <%= File.join(@variables[:install_path], 'lib', 'ruby', 'site_ruby') %>
+ruby alta_slave.rb %1 %2 %3
