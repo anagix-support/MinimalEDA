@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 (puts 'Error: wine not installed!'; exit) unless `which wine` =~ /\/wine/
 [target_dir = ENV['TARGET_DIR'],
- "#{ENV['HOME']}/.wine/drive_c/Program Files (x86)/LTC/LTspiceIV",
- "#{ENV['HOME']}/.wine/drive_c/Program Files/LTC/LTspiceIV"].each{|dir|
+ "#{ENV['HOME']}/.wine/drive_c/Program Files/LTC/LTspiceXVII"].each{|dir|
   (target_dir = dir; break) if dir && File.exist?(dir)
 }
 ENV['LANG'] = 'C'
@@ -10,25 +9,26 @@ ENV['LANG'] = 'C'
 
 unless target_dir && File.directory?(target_dir)
   Dir.chdir('/tmp'){
-    system 'wget http://ltspice.linear.com/software/LTspiceIV.exe' unless File.exist? 'LTspiceIV.exe'
-    system 'wine ./LTspiceIV.exe'
+    system 'wget http://ltspice.linear.com/software/LTspiceXVII.exe' unless File.exist? 'LTspiceXVII.exe'
+    system 'wine ./LTspiceXVII.exe'
     puts 'LTspice installed'
   }
 end
 
 [target_dir,
- "#{ENV['HOME']}/.wine/drive_c/Program Files (x86)/LTC/LTspiceIV",
- "#{ENV['HOME']}/.wine/drive_c/Program Files/LTC/LTspiceIV"].each{|dir|
+ "#{ENV['HOME']}/.wine/drive_c/Program Files/LTC/LTspiceXVII"].each{|dir|
   (target_dir = dir; break) if dir && File.exist?(dir)
 }
 puts "target_dir=#{target_dir}"
 begin
   Dir.chdir target_dir
-  if File.exist? 'ltsputil.exe'
-    puts "Nothing to do --- ltspice and ltsputil have been already installed under #{target_dir}"
+  if File.exist?('ltsputil.exe') && File.exist?('ltsputil17raw4.exe')
+    puts "Nothing to do --- ltspice, ltsputil and ltsputil17raw4.exe have been already installed under #{target_dir}"
   else
     system 'wget http://alb.anagix.com:8180/dist/ltsputil.exe && chmod +x ltsputil.exe'
     puts "ltsputil.exe installed under #{Dir.pwd}" if File.exist? 'ltsputil.exe'
+    system 'wget http://alb.anagix.com:8180/dist/ltsputil17raw4.exe.exe && chmod +x ltsputil17raw4.exe.exe'
+    puts "ltsputil17raw4.exe.exe installed under #{Dir.pwd}" if File.exist? 'ltsputil17raw4.exe.exe'
   end
 rescue
   puts "If LTspice installation directory is not #{target_dir}, please set TARGET_DIR to the correct one and run #{$0} again"

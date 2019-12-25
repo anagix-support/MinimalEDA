@@ -70,3 +70,5 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
 	* install_path set where chef/embedded resides and passed to templates
 	* pl.exe and gyazowin.exe set in alb2/public/dist
 	* ruby_installer.rb (content is nil) stored under install_path/lib/ruby/site_ruby which is necessary after ruby 2.5x
+## 0.2.7:
+	* gem_package added gem_binary File.join(install_path, 'bin', 'gem')   # was needed with chef client 14.14.29

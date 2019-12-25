@@ -74,3 +74,5 @@ The [Github Flavored Markdown page](http://github.github.com/github-flavored-mar
         * openssl removed because it is now included in chef
 ## 0.3.3:
 	* gem clipboard added
+## 0.3.4:
+	* added not to install wine and ltspice (wine_ltspice) if on WSL

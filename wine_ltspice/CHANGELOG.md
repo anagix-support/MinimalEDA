@@ -26,4 +26,7 @@ This file is used to list changes made in each version of wine_ltspice.
 	CentOS7 to use Anagix built rpm for i686 (because epel wine for CentOS fails to install both LTspiceIV.exe and LTspiceXII.exe)
 ## 0.3.2
 *winehp key changed:
-	wget -nc https://dl.winehq.org/wine-builds/winehq.key
+	* wget -nc https://dl.winehq.org/wine-builds/winehq.key
+## 0.3.3
+## 0.3.4
+	* LTspiceIV changed to LTspiceXVII

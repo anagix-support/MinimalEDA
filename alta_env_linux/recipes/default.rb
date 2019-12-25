@@ -153,6 +153,8 @@ else                     # use chef's ruby
 end
   
 # unless node[:platform_family] == 'rhel' && node[:platform_version] >= '7.0' # wine64 in centos7 is useless
-include_recipe 'wine_ltspice'
+unless File.exist?('/proc/version') && `grep -E "(MicroSoft|Microsoft|WSL)" /proc/version` != ''
+  include_recipe 'wine_ltspice'
+end
 # end
 # include_recipe 'anagix_init'

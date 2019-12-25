@@ -11,9 +11,12 @@
 
 raise "*** alta_env does not make sense for #{node[:platform]}" unless RUBY_PLATFORM =~ /mswin32|mingw/
 
+alb_dist_path = 'http://alb.anagix.com:8180/dist/'
+install_path = File.dirname(File.dirname `where ruby.exe`.chop)
+
 ['activesupport', 'mechanize', 'archive-tar-minitar', 'github_api', 'gitlab', 'clipboard'].each{|g|
   gem_package g do
-#    gem_binary 'c:\\opscode\\chef\\embedded\\bin\\gem'  # was needed with chef client 14.14.29
+    gem_binary File.join(install_path, 'bin', 'gem')   # was needed with chef client 14.14.29
     package_name g
   end
 }
@@ -43,8 +46,6 @@ gem_package 'zip-zip' do
   package_name 'zip-zip'
 end
 
-alb_dist_path = 'http://alb.anagix.com:8180/dist/'
-install_path = File.dirname(File.dirname `where ruby.exe`.chop)
 temp_dir = 'c:/opscode/temp'
 
 directory temp_dir do

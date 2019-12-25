@@ -35,6 +35,7 @@ end
 
 bash 'build klayout' do
   install_path = '/usr/bin/klayout'
+
   cwd '/usr/local/src/klayout'
   code <<-EOF
     ./build.sh -ruby /opt/chef/embedded/bin/ruby
