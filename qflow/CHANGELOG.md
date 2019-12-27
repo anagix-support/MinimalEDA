@@ -7,3 +7,5 @@
 * qflow-1.3.12 => current = 'qflow-1.3.13'
 ## 0.1.5
 * qflow-1.3.13 => current = 'qflow-1.3.16'	
+## 0.1.6
+	*added apt_update 'update' 

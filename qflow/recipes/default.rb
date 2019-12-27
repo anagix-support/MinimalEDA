@@ -28,6 +28,11 @@ packages = ['tcsh','make']
 case node[:platform]
 when 'ubuntu', 'debian'
   packages << 'python3-tk'
+
+  apt_update 'update' do
+    action :update
+  end
+
 when 'centos'
   packages << 'python35u-tkinter'
 end

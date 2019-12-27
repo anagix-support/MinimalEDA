@@ -16,7 +16,8 @@ install_path = File.dirname(File.dirname `where ruby.exe`.chop)
 
 ['activesupport', 'mechanize', 'archive-tar-minitar', 'github_api', 'gitlab', 'clipboard'].each{|g|
   gem_package g do
-    gem_binary File.join(install_path, 'bin', 'gem')   # was needed with chef client 14.14.29
+#    gem_binary 'c:\\opscode\\chef-workstation\\embedded\\bin\\gem'
+    gem_binary File.join(install_path, 'bin', 'gem').gsub('/', '\\')   # was needed with chef client 14.14.29
     package_name g
   end
 }

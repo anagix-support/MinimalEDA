@@ -21,6 +21,9 @@ end
 case node[:platform]
 when 'ubuntu', 'debian'
   packages = ['csh', 'tk-dev', 'tcl-dev', 'm4']
+  apt_update 'update' do
+    action :update
+  end
 when 'centos'
   packages = ['csh', 'tk-devel', 'tcl-devel', 'm4', 'gcc', 'make']
 end
