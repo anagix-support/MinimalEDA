@@ -6,6 +6,9 @@ This file is used to list changes made in each version of the klayout cookbook.
 
 Initial release.
 
-- change 0
-- change 1
-
+# 0.1.1
+	timeout 36000 added in bash 'build klayout' block
+# 0.1.2
+	templace klayout change for /usr/local/bin/klayout:
+	LD_LIBRARY_PATH=/opt/chef/embedded/lib:/usr/local/src/klayout/bin-release /usr/local/src/klayout/bin-release/klayout
+	

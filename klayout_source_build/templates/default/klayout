@@ -1,1 +1,1 @@
-LD_LIBRARY_PATH=/opt/chef/embedded/lib /usr/bin/klayout
+LD_LIBRARY_PATH=/opt/chef/embedded/lib:/usr/local/src/klayout/bin-release /usr/local/src/klayout/bin-release/klayout

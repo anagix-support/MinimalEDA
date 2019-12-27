@@ -15,6 +15,10 @@ end
 case node[:platform]
 when 'ubuntu', 'debian'
   packages = ['gcc', 'g++', 'make', 'libqt4-dev-bin', 'libqt4-dev', 'python3', 'python3-dev', 'libz-dev']
+#  packages = ['gcc', 'g++', 'make', 'libqt4-dev-bin', 'libqt4-dev', 'python3.8', 'python3.8-dev', 'libz-dev']
+  apt_update 'update' do
+    action :update
+  end
 when 'centos'
   packages = ['gcc', 'g++', 'make', 'qt', 'qt-devel', 'python36-libs', 'python36-devel']
 end
@@ -35,10 +39,10 @@ end
 
 bash 'build klayout' do
   install_path = '/usr/bin/klayout'
-
+  timeout 36000
   cwd '/usr/local/src/klayout'
   code <<-EOF
-    ./build.sh -ruby /opt/chef/embedded/bin/ruby
+    ./build.sh -ruby /opt/chef/embedded/bin/ruby -python 
   EOF
   not_if { ::File.exist? install_path }
 end
